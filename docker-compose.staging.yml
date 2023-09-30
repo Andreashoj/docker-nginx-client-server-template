@@ -1,0 +1,28 @@
+version: "3.9"
+volumes: 
+  postgres-data:
+services:
+  nginx:
+    depends_on:
+      - api
+      - client
+    restart: always
+    build: 
+      dockerfile: Dockerfile.dev
+      context: ./nginx
+    ports:
+      - "3051:80"
+  api:
+    build: 
+      dockerfile: Dockerfile
+      context: "./api"
+    #environment:
+      #- UNSPLASH_SECRET_KEY=${UNSPLASH_SECRET_KEY}
+  client:
+    build:
+      dockerfile: Dockerfile
+      context: "./client"
+
+networks:
+  my-network:
+    name: my-network
